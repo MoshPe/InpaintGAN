@@ -93,7 +93,7 @@ In this step the model is utilized for testing. Uploading and image, creating a 
   ![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/e1ad3628-b91c-4e72-8976-61b390bfceec)
 
 ## Download Capstone PPT
-For download the Capstone ppt please click [hear](https://github.com/MoshPe/InpaintGAN/raw/master/Capstone%20Project%20Phase%20B-23-1-R-13.pptx) for a simpler download 
+For download the Capstone ppt please click [here](https://github.com/MoshPe/InpaintGAN/raw/master/Capstone%20Project%20Phase%20B-23-1-R-13.pptx) for a simpler download 
 
 ## Credit
 Created and used with the help of Edge-LBAM article and github repo implementation. <br>

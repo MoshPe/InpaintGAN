@@ -86,17 +86,13 @@ In this step the model is utilized for testing. Uploading and image, creating a 
 #### 3. Mask image
   In this section the user is able to draw the mask onto the image for the model to fill.<br>
   The user can choose between several thicknesses of lines to draw and clear the drawn lines.
-  > **Warning** The model was trained upon a square mask so different kind of drawing might won't return the expected results.
-
-![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/b82da3b3-bf4b-43ed-bdd4-c51a071f8d91)
-![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/790200ea-295b-4d82-a26e-ce3accaf99c9)
+  ![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/b82da3b3-bf4b-43ed-bdd4-c51a071f8d91)
+  ![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/790200ea-295b-4d82-a26e-ce3accaf99c9)
 
 #### 4. Fill missing regions
   ![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/e1ad3628-b91c-4e72-8976-61b390bfceec)
 
 ## Credit
-Created and used with the help of Edge-LBAM article and github repo implementation. <br>
-<a href="https://github.com/wds1998/Edge-LBAM">Image Inpainting with Edge-guided Learnable Bidirectional Attention Maps</a><br>
 Created and used with the help of EdgeConnect article and github repo implementation. <br>
 <a href="https://arxiv.org/abs/1901.00212">EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning</a><br>
 <a href="http://openaccess.thecvf.com/content_ICCVW_2019/html/AIM/Nazeri_EdgeConnect_Structure_Guided_Image_Inpainting_using_Edge_Prediction_ICCVW_2019_paper.html">EdgeConnect: Structure Guided Image Inpainting using Edge Prediction</a>:

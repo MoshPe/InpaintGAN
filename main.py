@@ -74,7 +74,7 @@ def get_dataset_path():
 @eel.expose
 def test_model():
     inpaintConfig = Config()
-    inpaintConfig.MASK = 6
+    inpaintConfig.MASK = 1
     inpaintConfig.MODE = 4
     inpaintGAN = InpaintGAN(inpaintConfig, "")
     img, edges, masks, outputs = inpaintGAN.fill_image()

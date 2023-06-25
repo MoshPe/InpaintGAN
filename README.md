@@ -100,6 +100,9 @@ Created and used with the help of EdgeConnect article and github repo implementa
 <a href="http://openaccess.thecvf.com/content_ICCVW_2019/html/AIM/Nazeri_EdgeConnect_Structure_Guided_Image_Inpainting_using_Edge_Prediction_ICCVW_2019_paper.html">EdgeConnect: Structure Guided Image Inpainting using Edge Prediction</a>:
 
 ```
+Tal Yehoshua | Moshe Peretz
+```
+```
 @inproceedings{nazeri2019edgeconnect,
   title={EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning},
   author={Nazeri, Kamyar and Ng, Eric and Joseph, Tony and Qureshi, Faisal and Ebrahimi, Mehran},
@@ -115,3 +118,4 @@ Created and used with the help of EdgeConnect article and github repo implementa
   year = {2019}
 }
 ```
+

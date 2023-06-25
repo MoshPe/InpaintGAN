@@ -5,12 +5,10 @@ const saveModelData = () => {
     edge_detector: document.getElementById('edge_detector').value,
     dataset_path: document.getElementById('dataset-path').value + "/",
   }
-  if (modelConfig.dataset_path === ""){
+  if (modelConfig.dataset_path === "/"){
       document.getElementById('errorMsg').innerHTML = "Dataset path is not defined"
         return false
   }
-    if (document.getElementById('errorMsg').innerHTML === "The folder contains non-image files.")
-        return false
   eel.save_model_config(modelConfig);
 };
 

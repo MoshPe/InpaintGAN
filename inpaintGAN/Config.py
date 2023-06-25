@@ -5,7 +5,7 @@ class Config(dict):
     def __init__(self, config=None):
         super().__init__()
         self._dict = dict()
-        self._dict['PATH'] = os.path.dirname('/kaggle/working/')
+        self._dict['PATH'] = os.path.dirname('outputs/')
 
     def __getattr__(self, name):
         if self._dict is not None and self._dict.get(name) is not None:

@@ -93,6 +93,8 @@ In this step the model is utilized for testing. Uploading and image, creating a 
   ![image](https://github.com/MoshPe/InpaintGAN/assets/57846100/e1ad3628-b91c-4e72-8976-61b390bfceec)
 
 ## Credit
+Created and used with the help of Edge-LBAM article and github repo implementation. <br>
+<a href="https://github.com/wds1998/Edge-LBAM">Image Inpainting with Edge-guided Learnable Bidirectional Attention Maps</a><br>
 Created and used with the help of EdgeConnect article and github repo implementation. <br>
 <a href="https://arxiv.org/abs/1901.00212">EdgeConnect: Generative Image Inpainting with Adversarial Edge Learning</a><br>
 <a href="http://openaccess.thecvf.com/content_ICCVW_2019/html/AIM/Nazeri_EdgeConnect_Structure_Guided_Image_Inpainting_using_Edge_Prediction_ICCVW_2019_paper.html">EdgeConnect: Structure Guided Image Inpainting using Edge Prediction</a>:

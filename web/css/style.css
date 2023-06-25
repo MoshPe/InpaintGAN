@@ -1,0 +1,69 @@
+div {
+    border-radius: 30px;
+}
+   .container {
+            display: flex;
+            flex-direction: column;
+            height: 200vh;
+            color:black;
+            border-style: none;
+        }
+
+        .content-body {
+
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+        }
+        .content-main {
+             border:none;
+            flex:3 3;
+            overflow: auto;
+        }
+
+.header-area { flex: 0 0 50px;}
+.item2 { grid-area: menu; }
+.main-area { grid-area: main; }
+.item4 { grid-area: right; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+    display: flex;
+   margin: auto;
+    width: 50%;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: #edd1d1;
+    padding: 5px;
+}
+
+.button-1 {
+  background-color: #8b51fd;
+  border-radius: 25px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Aharoni, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  height: 50px;
+  list-style: none;
+  outline: none;
+  padding: 12px 30px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-1:hover,
+.button-1:focus {
+  background-color: white;
+    color: black;
+}

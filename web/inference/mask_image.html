@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <link rel="stylesheet" href="../css/imageUpload.css">
+
+</head>
+
+<body>
+<nav>
+     <form id="msform">
+        <ul class="progressbar">
+            <li class="active" id="account">
+                <strong>Upload images</strong>
+            </li>
+            <li id="personal" class="active" >
+                <strong>Mask image</strong>
+            </li>
+            <li id="payment">
+                <strong>Fill Massing Regions</strong>
+            </li>
+        </ul>
+         </form>
+</nav>
+
+<div id="canvas_div" style="overflow-x: auto;">
+<canvas id="canvas" width="900" height="360" style="background-color: #beb8b8;background-image: url('image.jpeg'); background-size: cover;"></canvas>
+       <br/>
+<button class="button-2" onclick="javascript:clearArea();return false;">Clear Area</button>
+
+Line width : <select id="selWidth">
+    <option value="5">5</option>
+    <option value="7">7</option>
+    <option value="11">11</option>
+    <option value="13" selected="selected">13</option>
+    <option value="15">15</option>
+</select>
+
+<select id="selColor" hidden="true">
+    <option value="white" selected="selected">white</option>
+</select>
+    <button  class="button-2" id="myBtn" style="margin-left: 90%">Fill missing regions</button>
+<!--    <a href="mask_image.html" target='here' id="myBtn" class="button-2" style="margin-left: 90%">Fill missing regions</a>-->
+
+
+</div>
+
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+    <div class="loader" style="background-color: white;margin-left: 45%;margin-top: 5%"></div>
+
+
+</div>
+<script type="text/javascript" src="/eel.js"></script>
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    const image = canvas.toDataURL("image/jpeg");
+    eel.download_mask_file(image.slice(23))
+    eel.test_model()
+    window.location.href="./fill_missing_regions.html"
+    // move other page
+
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+<script>
+const canvas = document.getElementById('canvas');
+const context = canvas.getContext('2d');
+let isDrawing = false;
+let x = 0;
+let y = 0;
+var offsetX;
+var offsetY;
+
+const img = new Promise(r => {
+  const img = new Image();
+
+  img.src = '../../inference/image.jpeg';
+  img.onload = () => r(img);
+});
+
+async function startup() {
+  const img = new Image();
+
+  img.src = '../../inference/image.jpeg';
+  img.onload = function() {
+        const aspect = img.width / img.height;
+      // Draw image and export to a data-uri
+      canvas.width = 360;
+      canvas.height = 360 / aspect;
+      // context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      // const dataURI = canvas.toDataURL();
+      //
+      // // Do something with the result, like overwrite original
+      // img.src = dataURI;
+  }
+
+  canvas.addEventListener('touchstart', handleStart);
+  canvas.addEventListener('touchend', handleEnd);
+  canvas.addEventListener('touchcancel', handleCancel);
+  canvas.addEventListener('touchmove', handleMove);
+  canvas.addEventListener('mousedown', (e) => {
+    x = e.offsetX;
+    y = e.offsetY;
+    isDrawing = true;
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (isDrawing) {
+      drawLine(context, x, y, e.offsetX, e.offsetY);
+      x = e.offsetX;
+      y = e.offsetY;
+    }
+  });
+
+  canvas.addEventListener('mouseup', (e) => {
+    if (isDrawing) {
+      drawLine(context, x, y, e.offsetX, e.offsetY);
+      x = 0;
+      y = 0;
+      isDrawing = false;
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", startup);
+
+const ongoingTouches = [];
+
+function handleStart(evt) {
+  evt.preventDefault();
+  const touches = evt.changedTouches;
+  offsetX = canvas.getBoundingClientRect().left;
+  offsetY = canvas.getBoundingClientRect().top;
+  for (let i = 0; i < touches.length; i++) {
+    ongoingTouches.push(copyTouch(touches[i]));
+  }
+}
+
+function handleMove(evt) {
+  evt.preventDefault();
+  const touches = evt.changedTouches;
+  for (let i = 0; i < touches.length; i++) {
+    const color = document.getElementById('selColor').value;
+    const idx = ongoingTouchIndexById(touches[i].identifier);
+    if (idx >= 0) {
+      context.beginPath();
+      context.moveTo(ongoingTouches[idx].clientX - offsetX, ongoingTouches[idx].clientY - offsetY);
+      context.lineTo(touches[i].clientX - offsetX, touches[i].clientY - offsetY);
+      context.lineWidth = document.getElementById('selWidth').value;
+      context.strokeStyle = color;
+      context.lineJoin = "round";
+      context.closePath();
+      context.stroke();
+      ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
+    }
+  }
+}
+
+function handleEnd(evt) {
+  evt.preventDefault();
+  const touches = evt.changedTouches;
+  for (let i = 0; i < touches.length; i++) {
+    const color = document.getElementById('selColor').value;
+    let idx = ongoingTouchIndexById(touches[i].identifier);
+    if (idx >= 0) {
+      context.lineWidth = document.getElementById('selWidth').value;
+      context.fillStyle = color;
+      ongoingTouches.splice(idx, 1);  // remove it; we're done
+    }
+  }
+}
+
+function handleCancel(evt) {
+  evt.preventDefault();
+  const touches = evt.changedTouches;
+  for (let i = 0; i < touches.length; i++) {
+    let idx = ongoingTouchIndexById(touches[i].identifier);
+    ongoingTouches.splice(idx, 1);  // remove it; we're done
+  }
+}
+
+function copyTouch({ identifier, clientX, clientY }) {
+  return { identifier, clientX, clientY };
+}
+
+function ongoingTouchIndexById(idToFind) {
+  for (let i = 0; i < ongoingTouches.length; i++) {
+    const id = ongoingTouches[i].identifier;
+    if (id === idToFind) {
+      return i;
+    }
+  }
+  return -1;    // not found
+}
+
+function drawLine(context, x1, y1, x2, y2) {
+  context.beginPath();
+  context.strokeStyle = document.getElementById('selColor').value;
+  context.lineWidth = document.getElementById('selWidth').value;
+  context.lineJoin = "round";
+  context.moveTo(x1, y1);
+  context.lineTo(x2, y2);
+  context.closePath();
+  context.stroke();
+}
+
+function clearArea() {
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+}
+</script>
+</body>
+</html>

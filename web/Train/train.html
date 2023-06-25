@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="../css/TrainStyle.css">
+        <meta charset="UTF-8">
+        <title>Train</title>
+    </head>
+    <body>
+        <div class="container">
+             <h1 style="text-align: center">Training Process</h1>
+                <div class="grid-container">
+                  <div class="grid-item">
+                      <h4 style="text-decoration: underline">InpaintGAN Configuation</h4>
+                      <label for="model_to_train">Model to train:</label>
+                      <select id="model_to_train" name="model_to_train" style="padding: 3px">
+                          <option value="edge">Edge Model</option>
+                          <option value="inpaint">Inpaint Model</option>
+                          <option value="joint">Joint Model</option>
+                      </select>
+                          </br>
+                      <label for="masking_image">Masking image:</label>
+                      <select id="masking_image" name="masking_image" style="padding: 3px">
+                            <option value="random">Random block</option>
+                      </select>
+                          </br>
+                      <label for="edge_detector" >Edge Detector:</label>
+                      <select id="edge_detector" name="edge_detector" style="padding: 3px">
+                        <option value="canny">Canny</option>
+                      </select>
+                  </div>
+                        &nbsp;
+                  <div class="grid-item">
+                    <h4 style="text-decoration: underline">Dataset Folder Path</h4>
+<!--                      <label for="train_list">Train List:</label>-->
+<!--                      <select id="train_list" name="train_list" style="padding: 3px">-->
+<!--                          <option value="train_flist">datasets/places2_train.flist</option>-->
+<!--                      </select>-->
+<!--                          </br>-->
+<!--                      <label for="value_list">Value List:</label>-->
+<!--                      <select id="value_list" name="value_list" style="padding: 3px">-->
+<!--                            <option value="value_flist">datasets/places2_val.flist</option>-->
+<!--                      </select>-->
+<!--                          </br>-->
+<!--                      <label for="test_list" >Test List:</label>-->
+<!--                      <select id="test_list" name="test_list" style="padding: 3px">-->
+<!--                        <option value="test_flist">datasets/places2_test.flist</option>-->
+<!--                      </select>-->
+<!--                      </br>-->
+<!--                      </br>-->
+                        <button type="button" id="file-ip-1" class="button-2" onclick="browseResult();">Select Dataset Path</button>
+                        <br><br><input type="text" id="dataset-path" readonly></br>
+                        <label id="errorMsg" style="color: red"></label>
+                  </div>
+            </div>
+        </div>
+        <a href="trainB.html" onclick="return saveModelData()"  target='here' class="button-2" style="margin-left: 90%">next</a>
+        <script type="text/javascript" src="/eel.js"></script>
+        <script type = "text/javascript" src="train.js"></script>
+    </body>
+</html>

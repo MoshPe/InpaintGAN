@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="../css/TrainStyle.css">
+        <meta charset="UTF-8">
+        <title>Train</title>
+    </head>
+
+
+     <div class="container">
+              <h1 style="text-align: center">Training Process</h1>
+                <div class="grid-container" style="grid-template-columns: auto auto auto auto;">
+                  <div class="grid-item" style="grid-area: 1/ 1 / span 2 / span 2;">
+                      <textarea  id="Train" name="Train" value="Train"   style="border:none;margin-right: 30%;" readonly></textarea>
+                  </div>&nbsp;
+                    <div class="grid-item" style="grid-area: 1/ 2 / span 1 / span 2;margin-left: 45%">
+                        <span class="loader" ></span><br/>
+                        <br/><br/><br/><br/>
+                        <label id="TrainPro">Training in progress.....</label>
+                        </div>
+                  <div class="grid-item" style="margin-top: 5%">
+                      <label for="Precision">Precision:</label>
+                       <input  type="text" id="Precision" name="Precision" value="0.5851" readonly>
+                          </br>
+                      <label for="Recall">Recall</label>
+                      <input  type="text" id="Recall" name="Recall" value="0.0507" readonly><br>
+                  </div>
+
+            </div>
+        </div>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+      eel.expose(setMetrics);
+      eel.expose(addLog);
+      function setMetrics(prec, recall) {
+        document.getElementById("Precision").value=prec;
+        document.getElementById("Recall").value=recall;
+      }
+      function addLog(log) {
+        document.getElementById("Train").value+=log + '\r\n\r\n';
+      }
+      eel.train_model()
+    </script>
+    </body>
+</html>

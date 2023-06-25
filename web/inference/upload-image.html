@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/imageUpload.css">
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS Progress Bar</title>
+</head>
+<nav>
+     <form id="msform">
+        <ul class="progressbar">
+            <li class="active" id="account">
+                <strong>Upload images</strong>
+            </li>
+            <li id="personal">
+                <strong>Mask image</strong>
+            </li>
+            <li id="payment">
+                <strong>Fill Massing Regions</strong>
+            </li>
+        </ul>
+         </form>
+</nav>
+<body>
+ <div class="center">
+  <div class="form-input">
+    <div class="preview">
+      <img id="file-ip-1-preview">
+    </div>
+    <label for="file-ip-1" >Upload Image</label>
+    <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+</div>
+  </div>
+</div>
+ <a href="mask_image.html" target='here' onclick="saveGANData()" class="button-2" style="margin-left: 90%">Upload Images</a>
+<script type="text/javascript" src="/eel.js"></script>
+<script type="text/javascript">
+  function showPreview(event){
+  if(event.target.files.length > 0){
+    const src = URL.createObjectURL(event.target.files[0]);
+    const preview = document.getElementById("file-ip-1-preview");
+    console.log(event.target.files[0]);
+    console.log(src);
+
+        const reader = new FileReader();
+
+    reader.readAsDataURL(event.target.files[0]);
+    reader.addEventListener('load', () => {
+        eel.download_image_file(reader.result.slice(23))
+    });
+
+    // reader.readAsDataURL(src)
+    preview.src = src;
+    preview.style.display = "block";
+  }
+}
+</script>
+</body>
+</html>

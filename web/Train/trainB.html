@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="../css/TrainStyle.css">
+
+        <meta charset="UTF-8">
+        <title>Train</title>
+        <script type = "text/javascript" src="train.js"></script>
+    </head>
+    <body>
+        <div class="container">
+             <h1 style="text-align: center">Training Process</h1>
+             <h2 style="text-decoration: underline; text-align: center">Generator Discriminator Configuration</h2>
+                <div class="grid-container">
+                  <div class="grid-item">
+                      <label for="lr">Learning Rate:</label>
+                      <select id="lr" name="lr" style="padding: 3px">
+                          <option value=0.0001>0.0001</option>
+                      </select>
+                          </br>
+                      <label for="g_d_lr">G / D Learning Rate:</label>
+                      <select id="g_d_lr" name="g_d_lr" style="padding: 3px">
+                            <option value=0.1>0.1</option>
+                      </select>
+                          </br>
+                      <label for="adam_op">Adam optimizer:</label>
+                      <select id="adam_op" name="adam_op" style="padding: 3px">
+                        <option value=0.0>0.0</option>
+                      </select>
+                      </br>
+                      <label for="b_size">Batch size:</label>
+                      <select id="b_size" name="b_size" style="padding: 3px">
+                        <option value=8>8</option>
+                      </select>
+                                            </br>
+                      <label for="image_size">Image input size:</label>
+                      <select id="image_size" name="image_size" style="padding: 3px">
+                        <option value=256>256</option>
+                      </select>
+                                            </br>
+                      <label for="sigma">Sigma:</label>
+                      <select id="sigma" name="sigma" style="padding: 3px">
+                        <option value=2>2</option>
+                      </select>
+                                            </br>
+                      <label for="gan_l">GAN Loss:</label>
+                      <select id="gan_l" name="gan_l" style="padding: 3px">
+                        <option value="nsgan">NSGAN</option>
+                      </select>
+                  </div>
+                        &nbsp;
+                  <div class="grid-item">
+                      <label for="max_iterations">Max iterations:</label>
+                      <select id="max_iterations" name="max_iterations" style="padding: 3px">
+                          <option value=2000000>2,000,000</option>
+                      </select>
+                          </br>
+                      <label for="edge_threshold">Edge Threshold:</label>
+                      <select id="edge_threshold" name="edge_threshold" style="padding: 3px">
+                            <option value=0.5>0.5</option>
+                      </select>
+                          </br>
+                      <label for="l1_loss_w">L1 Loss weight:</label>
+                      <select id="l1_loss_w" name="l1_loss_w" style="padding: 3px">
+                        <option value=1>1</option>
+                      </select>
+                      </br>
+                      <label for="fm_loss_w">FM Loss weight:</label>
+                      <select id="fm_loss_w" name="fm_loss_w" style="padding: 3px">
+                        <option value=10>10</option>
+                      </select>
+                                            </br>
+                      <label for="content_loss_w">Content Loss weight:</label>
+                      <select id="content_loss_w" name="content_loss_w" style="padding: 3px">
+                        <option value=0.1>0.1</option>
+                      </select>
+                                            </br>
+                      <label for="style_loss_w">Style Loss weight:</label>
+                      <select id="style_loss_w" name="style_loss_w" style="padding: 3px">
+                        <option value=250>250</option>
+                      </select>
+                                            </br>
+                      <label for="inpaint_adv_loss_w">Inpaint Adv loss weight:</label>
+                      <select id="inpaint_adv_loss_w" name="inpaint_adv_loss_w" style="padding: 3px">
+                        <option value=0.1>0.1</option>
+                      </select>
+                  </div>
+            </div>
+        </div>
+        <a href="trainC.html" target='here' onclick="saveGANData()" class="button-2" style="margin-left: 90%">Train the model</a>
+        <script type="text/javascript" src="/eel.js"></script>
+        <script type = "text/javascript" src="train.js"></script>
+    </body>
+</html>

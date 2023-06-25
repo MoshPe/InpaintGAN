@@ -1,0 +1,138 @@
+/*Train*/
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto ;
+  padding: 10px;
+  border: none;
+}
+.grid-item {
+  border: none;
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+
+.button-2 {
+  background-color: #38b5fd;
+  border-radius: 25px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Aharoni, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  height: 50px;
+  list-style: none;
+  outline: none;
+  padding: 16px 30px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-2:hover,
+.button-2:focus,
+.active{
+  background-color: rgba(95, 213, 234, 0.71);
+    color: black;
+}
+textarea {
+  width: 110%;
+  height: 120%;
+  padding: 12px 20px;
+   -webkit-box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  background-color: #f4d4d7;
+  font-size: 20px;
+  resize: none;
+}
+input{
+  width: 10%;
+  height: 25%;
+  border:none;
+  background-color: #f4d4d7;
+  border-radius: 25px;
+  font-size: 20px;
+}
+.loader {
+        transform: rotateZ(45deg);
+        perspective: 100px;
+        border-radius: 50%;
+        width: 5%;
+        height: 5%;
+        color: #0d2adc;
+      }
+        .loader:before,
+        .loader:after {
+          content: '';
+          display: block;
+          position: absolute;
+          border: solid 1px;
+          margin-bottom: 30%;
+          margin-left: 13%;
+          width: inherit;
+          height: inherit;
+          border-radius: 50%;
+          transform: rotateX(70deg);
+          animation: 1s spin linear infinite;
+        }
+        .loader:after {
+          color: #FF3D00;
+          transform: rotateY(70deg);
+          animation-delay: .4s;
+        }
+
+      @keyframes rotate {
+        0% {
+          transform: translate(-50%, -50%) rotateZ(0deg);
+        }
+        100% {
+          transform: translate(-50%, -50%) rotateZ(360deg);
+        }
+      }
+
+      @keyframes rotateccw {
+        0% {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+          transform: translate(-50%, -50%) rotate(-360deg);
+        }
+      }
+
+      @keyframes spin {
+        0%,
+        100% {
+          box-shadow: .2em 0px 0 0px currentcolor;
+        }
+        12% {
+          box-shadow: .2em .2em 0 0 currentcolor;
+        }
+        25% {
+          box-shadow: 0 .2em 0 0px currentcolor;
+        }
+        37% {
+          box-shadow: -.2em .2em 0 0 currentcolor;
+        }
+        50% {
+          box-shadow: -.2em 0 0 0 currentcolor;
+        }
+        62% {
+          box-shadow: -.2em -.2em 0 0 currentcolor;
+        }
+        75% {
+          box-shadow: 0px -.2em 0 0 currentcolor;
+        }
+        87% {
+          box-shadow: .2em -.2em 0 0 currentcolor;
+        }
+      }

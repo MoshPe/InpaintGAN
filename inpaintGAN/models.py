@@ -146,14 +146,14 @@ class EdgeModel(BaseModel):
         dis_fake, dis_fake_feat = self.discriminator(dis_input_fake)        # in: (grayscale(1) + edge(1))
         dis_real_loss = self.adversarial_loss(dis_real, True, True)
         dis_fake_loss = self.adversarial_loss(dis_fake, False, True)
-        dis_loss += (dis_real_loss.clone() + dis_fake_loss.clone()) / 2
+        dis_loss += (dis_real_loss + dis_fake_loss) / 2
 
 
         # generator adversarial loss
         gen_input_fake = torch.cat((images, outputs), dim=1)
         gen_fake, gen_fake_feat = self.discriminator(gen_input_fake)        # in: (grayscale(1) + edge(1))
         gen_gan_loss = self.adversarial_loss(gen_fake, True, False)
-        gen_loss += gen_gan_loss.clone()
+        gen_loss += gen_gan_loss
 
 
         # generator feature matching loss
@@ -173,19 +173,13 @@ class EdgeModel(BaseModel):
 
         return outputs, gen_loss, dis_loss, logs
 
-    # def forward(self, images, edges, masks):
-    #     edges_masked = (edges * (1 - masks))
-    #     images_masked = (images * (1 - masks)) + masks
-    #     inputs = torch.cat((images_masked, edges_masked), dim=1)
-    #     outputs = self.generator(inputs, masks)                                    # in: [grayscale(1) + edge(1) + mask(1)]
-    #     return outputs
-
     def forward(self, images, edges, masks):
         edges_masked = (edges * (1 - masks))
         images_masked = (images * (1 - masks)) + masks
         inputs = torch.cat((images_masked, edges_masked, masks), dim=1)
-        outputs = self.generator(inputs)                                  # in: [grayscale(1) + edge(1) + mask(1)]
+        outputs = self.generator(inputs)                                    # in: [grayscale(1) + edge(1) + mask(1)]
         return outputs
+
 
     def backward(self, gen_loss=None, dis_loss=None):
         if dis_loss is not None:

@@ -134,55 +134,6 @@ class ShallowFeatures(nn.Module):
         return F
 
 
-# class EdgeGenerator(BaseNetwork):
-#     def __init__(self, residual_blocks=8, use_spectral_norm=True, init_weights=True):
-#         super(EdgeGenerator, self).__init__()
-#
-#         self.encoder = ShallowFeatures()
-#
-#         blocks = []
-#         for _ in range(residual_blocks):
-#             block = ResnetBlock(256, 2, use_spectral_norm=use_spectral_norm)
-#             blocks.append(block)
-#
-#         self.middle = nn.Sequential(*blocks)
-#
-#         self.decoder = nn.Sequential(
-#             spectral_norm(nn.ConvTranspose2d(in_channels=512, out_channels=256, kernel_size=4, stride=2, padding=1), use_spectral_norm),
-#             nn.InstanceNorm2d(256, track_running_stats=False),
-#             nn.ReLU(True),
-#
-#             spectral_norm(nn.ConvTranspose2d(in_channels=256, out_channels=256, kernel_size=3, stride=1, padding=1), use_spectral_norm),
-#             nn.InstanceNorm2d(256, track_running_stats=False),
-#             nn.ReLU(True),
-#
-#             spectral_norm(nn.ConvTranspose2d(in_channels=256, out_channels=128, kernel_size=4, stride=2, padding=1), use_spectral_norm),
-#             nn.InstanceNorm2d(128, track_running_stats=False),
-#             nn.ReLU(True),
-#
-#             spectral_norm(nn.ConvTranspose2d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=1), use_spectral_norm),
-#             nn.InstanceNorm2d(128, track_running_stats=False),
-#             nn.ReLU(True),
-#
-#             spectral_norm(nn.ConvTranspose2d(in_channels=128, out_channels=64, kernel_size=4, stride=2, padding=1), use_spectral_norm),
-#             nn.InstanceNorm2d(64, track_running_stats=False),
-#             nn.ReLU(True),
-#
-#             nn.ReflectionPad2d(3),
-#             nn.Conv2d(in_channels=64, out_channels=1, kernel_size=7, padding=0),
-#         )
-#
-#         if init_weights:
-#             self.init_weights()
-#
-#     def forward(self, edge, mask):
-#         x = self.encoder(edge, mask)
-#         x1 = self.middle(x)
-#         x1 = torch.cat([x,x1], dim=1)
-#         x1 = self.decoder(x1)
-#         x1 = torch.sigmoid(x1)
-#         return x1
-
 class EdgeGenerator(BaseNetwork):
     def __init__(self, residual_blocks=8, use_spectral_norm=True, init_weights=True):
         super(EdgeGenerator, self).__init__()
@@ -193,17 +144,35 @@ class EdgeGenerator(BaseNetwork):
             nn.InstanceNorm2d(64, track_running_stats=False),
             nn.ReLU(True),
 
-            spectral_norm(nn.Conv2d(in_channels=64, out_channels=128, kernel_size=4, stride=2, padding=1),
-                          use_spectral_norm),
+            spectral_norm(nn.Conv2d(in_channels=64, out_channels=128, kernel_size=4, stride=2, padding=1), use_spectral_norm),
             nn.InstanceNorm2d(128, track_running_stats=False),
             nn.ReLU(True),
 
-            spectral_norm(nn.Conv2d(in_channels=128, out_channels=256, kernel_size=4, stride=2, padding=1),
-                          use_spectral_norm),
+            spectral_norm(nn.Conv2d(in_channels=128, out_channels=256, kernel_size=4, stride=2, padding=1), use_spectral_norm),
+            nn.InstanceNorm2d(256, track_running_stats=False),
+            nn.ReLU(True)
+        )
+        self.pool1 = nn.AdaptiveAvgPool2d(8)
+        self.pool2 = nn.AdaptiveAvgPool2d(16)
+        self.pool3 = nn.AdaptiveAvgPool2d(32)
+        self.upsample1 = nn.Sequential(
+            nn.ConvTranspose2d(in_channels=256, out_channels=256,kernel_size=4,stride=2,padding=1),
+            nn.InstanceNorm2d(128,track_running_stats=False),
+            nn.ReLU(True)
+        )
+        self.upsample2 = nn.Sequential(
+            nn.ConvTranspose2d(in_channels=512,out_channels=256,kernel_size=4,stride=2,padding=1),
+            nn.InstanceNorm2d(256,track_running_stats=False),
+            nn.ReLU(True)
+        )
+        self.upsample3 = nn.Sequential(
+            nn.ConvTranspose2d(in_channels=512, out_channels=256, kernel_size=4, stride=2, padding=1),
             nn.InstanceNorm2d(256, track_running_stats=False),
             nn.ReLU(True)
         )
 
+
+        # self.conv2
         blocks = []
         for _ in range(residual_blocks):
             block = ResnetBlock(256, 2, use_spectral_norm=use_spectral_norm)
@@ -212,13 +181,11 @@ class EdgeGenerator(BaseNetwork):
         self.middle = nn.Sequential(*blocks)
 
         self.decoder = nn.Sequential(
-            spectral_norm(nn.ConvTranspose2d(in_channels=256, out_channels=128, kernel_size=4, stride=2, padding=1),
-                          use_spectral_norm),
+            spectral_norm(nn.ConvTranspose2d(in_channels=512, out_channels=128, kernel_size=4, stride=2, padding=1), use_spectral_norm),
             nn.InstanceNorm2d(128, track_running_stats=False),
             nn.ReLU(True),
 
-            spectral_norm(nn.ConvTranspose2d(in_channels=128, out_channels=64, kernel_size=4, stride=2, padding=1),
-                          use_spectral_norm),
+            spectral_norm(nn.ConvTranspose2d(in_channels=128, out_channels=64, kernel_size=4, stride=2, padding=1), use_spectral_norm),
             nn.InstanceNorm2d(64, track_running_stats=False),
             nn.ReLU(True),
 
@@ -230,8 +197,21 @@ class EdgeGenerator(BaseNetwork):
             self.init_weights()
 
     def forward(self, x):
-        x = self.encoder(x)
+        for i in range(len(self.encoder)):
+            x = self.encoder[i](x)
+        x_8 = self.pool1(x)
+        x_16 = self.pool2(x)
+        x_32 = self.pool3(x)
         x = self.middle(x)
+        x_8 = self.middle(x_8)
+        x_16 = self.middle(x_16)
+        x_32 = self.middle(x_32)
+        x_8 = self.upsample1(x_8)
+        x_16 = torch.cat((x_16,x_8),dim=1)
+        x_16 = self.upsample2(x_16)
+        x_32 = torch.cat((x_32,x_16),dim=1)
+        x_32 = self.upsample3(x_32)
+        x = torch.cat((x,x_32),dim=1)
         x = self.decoder(x)
         x = torch.sigmoid(x)
         return x

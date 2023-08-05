@@ -210,8 +210,9 @@ class InpaintGAN():
         logs = [("it", iteration), ] + logs
         progbar.add(len(images), values=logs)
 
-    def fill_image(self, size):
+    def fill_image(self):
         augment = True
+        self.load()
         self.edge_model.eval()
         self.inpaint_model.eval()
 
@@ -225,7 +226,7 @@ class InpaintGAN():
         outputs = self.inpaint_model(images, edges, masks)
         outputs_merged = (outputs * masks) + (images * (1 - masks))
 
-        return outputs_merged
+        return outputs_merged, edges, masks, outputs
 
     def to_tensor(self, img):
         img = Image.fromarray(img)

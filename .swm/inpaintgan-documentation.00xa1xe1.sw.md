@@ -5,7 +5,30 @@ file_version: 1.1.3
 app_version: 1.16.4
 ---
 
-dghmgfmhfmhfmh
+
+<!-- NOTE-swimm-snippet: the lines below link your snippet to Swimm -->
+### 📄 inpaintGAN/main.py
+```python
+5      if __name__ == '__main__':
+6          inpaintConfig = Config()
+7      
+8          inpaintGAN = InpaintGAN(inpaintConfig)
+9          inpaintGAN.train()
+```
+
+<br/>
+
+<!--MERMAID {width:100}-->
+```mermaid
+sequenceDiagram
+Alice->>+John: Hello John, how are you?
+Alice->>+John: John, can you hear me?
+John-->>-Alice: Hi Alice, I can hear you!
+John-->>-Alice: I feel great!
+
+
+```
+<!--MCONTENT {content: "sequenceDiagram<br/>\nAlice->>+John: Hello John, how are you?<br/>\nAlice->>+John: John, can you hear me?<br/>\nJohn\\-\\-\\>>-Alice: Hi Alice, I can hear you!<br/>\nJohn\\-\\-\\>>-Alice: I feel great!<br/>\n\n<br/>"} --->
 
 <br/>
 
